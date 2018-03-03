@@ -1,11 +1,13 @@
 #include <THC/THC.h>
+#include <ATen/ATen.h>
 //#include <THC/THCGeneral.h>
-#include "dot_power_cuda.h"
 #include <dot_power.h>
 #include <stdio.h>
 
-extern THCState *state;
+extern at::Context &at::globalContext();
+THCState *state = at::globalContext().thc_state;
 
+extern "C"
 int dot_power_forward_cuda(THCudaTensor *base, THCudaTensor *exponent, THCudaTensor *output) {
   THCudaTensor_resizeAs(state, output, base);
   THCudaTensor_resizeAs(state, output, exponent);
@@ -25,6 +27,8 @@ int dot_power_forward_cuda(THCudaTensor *base, THCudaTensor *exponent, THCudaTen
   }
 
 }
+
+extern "C"
 int dot_power_backward_cuda(THCudaTensor *base, THCudaTensor *exponent,
                             THCudaTensor *grad_output,
                             THCudaTensor *grad_base, THCudaTensor *grad_exponent){
