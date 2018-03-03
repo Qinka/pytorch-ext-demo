@@ -12,7 +12,7 @@ headers = ['dot_power/src/dot_power_cuda.h']
 defines = []
 
 ffi = create_extension(
-    'dot_power._ext.dow_power',
+    'dot_power._ext.dot_power',
     package = True,
     headers = headers,
     sources = sources,
